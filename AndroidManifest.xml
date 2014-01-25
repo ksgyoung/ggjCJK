@@ -7,7 +7,9 @@
     <uses-sdk
         android:minSdkVersion="13"
         android:targetSdkVersion="18" />
-
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -23,19 +25,34 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.cjk.thecloud.broadcastreceivers.BluetoothBroadcastReceiver" >
-            <intent-filter>
-                <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
-                <action android:name="android.bluetooth.device.action.FOUND" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name="com.cjk.thecloud.BattleActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_battle"
             android:theme="@style/FullscreenTheme" >
         </activity>
+        
+        <receiver android:name="com.cjk.thecloud.broadcastreceivers.BluetoothBroadcastReceiver">
+	        <intent-filter>
+	            <action android:name="android.bluetooth.device.action.ACL_CONNECTED"/>
+	            <action android:name="android.bluetooth.device.action.FOUND"/>
+	        </intent-filter>
+	    </receiver>
+	    <receiver android:name="com.cjk.thecloud.broadcastreceivers.WifiBroadcastReceiver">
+	        <intent-filter>
+	            <action android:name="android.net.wifi.supplicant.STATE_CHANGE" />
+                <action android:name="android.net.wifi.supplicant.CONNECTION_CHANGE" />
+                <action android:name="android.net.wifi.NETWORK_IDS_CHANGED" />
+                <action android:name="android.net.wifi.RSSI_CHANGED" /> 
+                <action android:name="android.net.wifi.SCAN_RESULTS" /> 
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" /> 
+                <action android:name="android.net.wifi.p2p.CONNECTION_STATE_CHANGE" /> 
+				<action android:name="android.net.wifi.p2p.DISCOVERY_STATE_CHANGE" /> 
+				<action android:name="android.net.wifi.p2p.PEERS_CHANGED" /> 
+				<action android:name="android.net.wifi.p2p.STATE_CHANGED" /> 
+				<action android:name="android.net.wifi.p2p.THIS_DEVICE_CHANGED" /> 
+		    </intent-filter>
+	    </receiver>
     </application>
 
 </manifest>
