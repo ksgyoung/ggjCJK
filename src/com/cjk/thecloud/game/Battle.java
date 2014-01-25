@@ -1,8 +1,8 @@
-package controllers;
+package com.cjk.thecloud.game;
 
-import elements.Jammer;
+import com.cjk.thecloud.game.elements.Jammer;
 
-public class BattleController {
+public class Battle {
 	
 	private Jammer activeJammer;
 	

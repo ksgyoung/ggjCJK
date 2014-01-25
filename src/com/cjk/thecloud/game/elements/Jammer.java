@@ -1,8 +1,9 @@
-package elements;
+package com.cjk.thecloud.game.elements;
 
 import java.util.List;
 
-import parameters.Parameters;
+import com.cjk.thecloud.game.Parameters;
+
 
 public class Jammer extends GameElement {
 
