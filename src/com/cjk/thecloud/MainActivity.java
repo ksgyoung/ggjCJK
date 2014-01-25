@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void onButtonClick(View view) {
-		BattleController.getInstance().startBattle(getApplicationContext());
+		BattleController.getInstance().startBattleActivity(getApplicationContext());
 	}
 
 }

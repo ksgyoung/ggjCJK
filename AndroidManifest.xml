@@ -26,7 +26,7 @@
         </activity>
 
         <activity
-            android:name="com.cjk.thecloud.BattleActivity"
+            android:name="com.cjk.thecloud.WarMapActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_battle"
             android:theme="@style/FullscreenTheme" >

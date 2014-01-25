@@ -68,6 +68,10 @@ public class Jammer extends GameElement {
 		}
 		else return numPackets;
 	}
+	
+	public int getNumPackets() {
+		return defencePackets.size() + attackPackets.size();
+	}
 
 	@Override
 	protected void setSharedPrefId() {
