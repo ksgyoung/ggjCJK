@@ -1,5 +1,8 @@
 package com.cjk.thecloud.broadcastreceivers;
 
+import com.cjk.thecloud.networking.BluetoothClient;
+import com.cjk.thecloud.networking.BluetoothServer;
+
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,10 +20,14 @@ public class BluetoothBroadcastReceiver extends BroadcastReceiver{
 		
 		if(actionString.equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
 			Log.d("BluetoothBroadcastReceiver", "Connected to bluetooth");
+			
 			Toast.makeText(context, "Connected to Bluetooth!!!", Toast.LENGTH_SHORT).show();
 		} else if(actionString.equals(BluetoothDevice.ACTION_FOUND)) {
 			Log.d("BluetoothBroadcastReceiver", "Found devices");
 			Toast.makeText(context, "Blutooth device found!", Toast.LENGTH_SHORT).show();
+			
+			BluetoothServer server = new BluetoothServer();
+			server.run();
 		}
 	}
 
