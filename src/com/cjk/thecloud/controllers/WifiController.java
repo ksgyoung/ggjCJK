@@ -1,4 +1,4 @@
-package controllers;
+package com.cjk.thecloud.controllers;
 
 public class WifiController {
 	
