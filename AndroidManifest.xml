@@ -22,6 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <receiver android:name="com.cjk.thecloud.broadcastreceivers.BluetoothBroadcastReceiver">
+	        <intent-filter>
+	            <action android:name="android.bluetooth.device.action.ACL_CONNECTED"/>
+	            <action android:name="android.bluetooth.device.action.FOUND"/>
+	        </intent-filter>
+	    </receiver>
     </application>
 
 </manifest>
