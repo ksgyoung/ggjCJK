@@ -2,12 +2,22 @@ package com.cjk.thecloud.game.elements;
 
 import android.util.Log;
 
-public class GameElement {
+
+public abstract class GameElement {
 	
-	private static final String SHARED_PREF_ID = GameElement.class.getSimpleName();
+	protected String sharedPrefID;
+	protected String id;
 	
-	public GameElement() {
-		Log.d(SHARED_PREF_ID, "Created.");
+	public GameElement(String id) {
+		setSharedPrefId();
+		setID(id);
+		Log.d(sharedPrefID, "Created.");
+	}
+	
+	protected abstract void setSharedPrefId();
+	
+	protected void setID(String id) {
+		this.id = id;
 	}
 
 }

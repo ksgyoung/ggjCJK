@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="13"
         android:targetSdkVersion="18" />
 
     <application
@@ -22,13 +22,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <receiver android:name="com.cjk.thecloud.broadcastreceivers.BluetoothBroadcastReceiver">
-	        <intent-filter>
-	            <action android:name="android.bluetooth.device.action.ACL_CONNECTED"/>
-	            <action android:name="android.bluetooth.device.action.FOUND"/>
-	        </intent-filter>
-	    </receiver>
+
+        <receiver android:name="com.cjk.thecloud.broadcastreceivers.BluetoothBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
+                <action android:name="android.bluetooth.device.action.FOUND" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.cjk.thecloud.BattleActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_battle"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
     </application>
 
 </manifest>
