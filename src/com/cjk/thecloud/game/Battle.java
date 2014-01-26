@@ -1,12 +1,17 @@
 package com.cjk.thecloud.game;
 
+import com.cjk.thecloud.controllers.BattleController;
 import com.cjk.thecloud.game.elements.Jammer;
 
 public class Battle {
 	
 	private Jammer activeJammer;
+	private BattleController controller;
 	
-	public void battleLoop() {
+	public void battleLoop(BattleController controller) {
+		this.controller = controller;
+		
+		
 		// Find server
 		// Send total packets
 		// Get total packets
@@ -19,9 +24,7 @@ public class Battle {
 		// No packets = faint
 	}	
 	
-	public double getEnemyPackets() {
-		return 0;
-	}
+	
 	
 	public void sendMyPackets() {
 		
