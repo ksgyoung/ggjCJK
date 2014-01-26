@@ -2,6 +2,7 @@ package com.cjk.thecloud;
 
 import java.util.Set;
 
+import com.cjk.thecloud.broadcastreceivers.WifiBroadcastReceiver;
 import com.cjk.thecloud.controllers.BattleController;
 import com.cjk.thecloud.game.GameCreator;
 import com.cjk.thecloud.networking.ConnectThread;
@@ -10,8 +11,10 @@ import com.cjk.thecloud.util.BluetoothUtils;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -28,8 +31,11 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		GameCreator.createGame();
+		if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("WifiConnected")) {
+			createDialog();
+		} else {
+			GameCreator.createGame();
+		}
 	}
 
 	@Override
@@ -41,6 +47,40 @@ public class MainActivity extends Activity {
 	
 	public void onButtonClick(View view) {
 		BattleController.getInstance().startBattleActivity(getApplicationContext(), "Test");
+	}
+	
+	public void createDialog() {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		 
+		// set title
+		alertDialogBuilder.setTitle("Your Title");
+
+		// set dialog message
+		alertDialogBuilder
+			.setMessage("Oh look! A jammer has crossed your path! Would you like to battle it for packets?")
+			.setCancelable(false)
+			.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					// if this button is clicked, close
+					// current activity
+					 //Get 
+           			GameCreator.createGame();
+        			BattleController.getInstance().startBattleActivity(getApplicationContext(),"Wild Wifi Jammer");
+				}
+			  })
+			.setNegativeButton("No",new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					// if this button is clicked, just close
+					// the dialog box and do nothing
+					dialog.cancel();
+				}
+			});
+
+			// create alert dialog
+			AlertDialog alertDialog = alertDialogBuilder.create();
+
+			// show it
+			alertDialog.show();
 	}
 
 	OnClickListener bluetoothOnClickListener = new View.OnClickListener() {

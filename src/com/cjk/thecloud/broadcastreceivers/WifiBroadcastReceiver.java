@@ -1,22 +1,31 @@
 package com.cjk.thecloud.broadcastreceivers;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Bundle;
 import android.util.Log;
 
+import com.cjk.thecloud.MainActivity;
+import com.cjk.thecloud.R;
 import com.cjk.thecloud.controllers.BattleController;
 import com.cjk.thecloud.controllers.WifiController;
 import com.cjk.thecloud.game.GameCreator;
+import com.cjk.thecloud.util.StartBattleDialogFragment;
 
 public class WifiBroadcastReceiver extends BroadcastReceiver {
-
+	public Context context;
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		this.context = context;
 		// TODO Auto-generated method stub
 		Log.d("WifiReceiver", "onRecieve: Reached");
 		
@@ -32,10 +41,15 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
 		WifiController controller = WifiController.getInstance();
 		controller.setConnectivity(connected, strength, internetAvailable);
 		
-		if (connected) {
+		if (connected) {			
+			Intent dialogOpen = new Intent(context,MainActivity.class);
+			dialogOpen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			dialogOpen.putExtra("WifiConnected", true);
+			context.startActivity(dialogOpen);
+			
 			//Get 
-			GameCreator.createGame();
-			BattleController.getInstance().startBattleActivity(context,"Wild Wifi Jammer");
+   			//GameCreator.createGame();
+			//BattleController.getInstance().startBattleActivity(context,"Wild Wifi Jammer");
 		}
 	}
 
@@ -83,3 +97,5 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
 	}
 
 }
+
+
