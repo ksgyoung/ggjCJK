@@ -13,6 +13,10 @@ public class Server extends GameElement {
 		super(id);
 	}
 	
+	public Jammer getJammer() {
+		return jammers.get(0);
+	}
+	
 	public void addJammer(Jammer jammer) {
 		jammers.add(jammer);
 	}
