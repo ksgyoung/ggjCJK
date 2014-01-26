@@ -29,7 +29,7 @@ public class WarMapActivity extends Activity {
 		enemyLayout = (RelativeLayout) findViewById(R.id.activity_war_map_enemy_layout);
 		
 		controller = BattleController.getInstance();
-		controller.setActivity(this);
+		//controller.setActivity(this);
 		controller.doBattle();
 		
 	}

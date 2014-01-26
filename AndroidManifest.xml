@@ -7,13 +7,16 @@
     <uses-sdk
         android:minSdkVersion="13"
         android:targetSdkVersion="18" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:screenOrientation="landscape"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.cjk.thecloud.MainActivity"
@@ -24,26 +27,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.cjk.thecloud.WarMapActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_battle"
             android:theme="@style/FullscreenTheme" >
         </activity>
-        
-        <receiver android:name="com.cjk.thecloud.broadcastreceivers.BluetoothBroadcastReceiver">
-	        <intent-filter>
-	            <action android:name="android.bluetooth.device.action.ACL_CONNECTED"/>
-	            <action android:name="android.bluetooth.device.action.FOUND"/>
-	        </intent-filter>
-	    </receiver>
-	    <receiver android:name="com.cjk.thecloud.broadcastreceivers.WifiBroadcastReceiver">
-	        <intent-filter>
+
+        <receiver android:name="com.cjk.thecloud.broadcastreceivers.BluetoothBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
+                <action android:name="android.bluetooth.device.action.FOUND" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.cjk.thecloud.broadcastreceivers.WifiBroadcastReceiver" >
+            <intent-filter>
                 <action android:name="android.net.wifi.supplicant.CONNECTION_CHANGE" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-		    </intent-filter>
-	    </receiver>
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.cjk.thecloud.BattleActivity"
+            android:label="@string/title_activity_battle" >
+        </activity>
     </application>
 
 </manifest>
