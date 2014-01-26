@@ -5,6 +5,7 @@ import com.cjk.thecloud.controllers.BattleController;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.View;
 
 public class BattleActivity extends Activity {
 
@@ -17,7 +18,6 @@ public class BattleActivity extends Activity {
 		getActionBar().hide();
 		controller = BattleController.getInstance();
 		controller.setActivity(this);
-		controller.doBattle();
 	}
 
 	@Override
@@ -25,6 +25,10 @@ public class BattleActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.battle, menu);
 		return true;
+	}
+	
+	public void onAttack1Clicked(View v) {
+		//controller.
 	}
 
 }
