@@ -6,6 +6,7 @@ import java.util.List;
 import android.util.Log;
 
 import com.cjk.thecloud.game.Parameters;
+import com.cjk.thecloud.util.Dice;
 
 public class Jammer extends GameElement {
 
@@ -91,4 +92,17 @@ public class Jammer extends GameElement {
 		this.sharedPrefID = this.getClass().getSimpleName();		
 	}		
 	
+	public Packet takeAttackPacket() {
+		int attackIndex = Dice.getInstance().getRoll(attackPackets.size());
+		Packet packet = attackPackets.get(attackIndex);
+		attackPackets.remove(attackIndex);
+		return packet;
+	}
+	
+	public Packet takeDefencePacket() {
+		int defenceIndex = Dice.getInstance().getRoll(defencePackets.size());
+		Packet packet = defencePackets.get(defenceIndex);
+		defencePackets.remove(defenceIndex);
+		return packet;
+	}
 }

@@ -41,7 +41,8 @@ public class BluetoothUtils {
 		this.initiatedConnection = initiatedConnection;
 	}
 	
-	
-	
+	public String getLocalBluetoothName() {
+		return bluetoothAdapter.getName();
+	}
 	
 }
