@@ -3,21 +3,23 @@ package com.cjk.thecloud.networking;
 import java.io.IOException;
 import java.util.UUID;
 
-import com.cjk.thecloud.util.BluetoothUtils;
-
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.provider.Settings.Secure;
 import android.util.Log;
+
+import com.cjk.thecloud.util.BluetoothUtils;
 
 public class BluetoothClient extends Thread {
 	private BluetoothSocket bluetoothSocket;
 	private BluetoothDevice bluetoothDevice;
 	
 	public BluetoothClient(BluetoothDevice device) {
+		BluetoothUtils bluetoothUtils = BluetoothUtils.getInstance();
+		
 		bluetoothDevice = device;
+		
 		try {
-			bluetoothSocket = device.createRfcommSocketToServiceRecord(UUID.fromString(Secure.ANDROID_ID));
+			bluetoothSocket = device.createRfcommSocketToServiceRecord(UUID.randomUUID());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -26,7 +28,7 @@ public class BluetoothClient extends Thread {
 	
 	
 	public void run() {
-		BluetoothUtils.BLUETOOTH_ADAPTER.cancelDiscovery();
+		BluetoothUtils.getInstance().getBluetoothAdapter().cancelDiscovery();
 		
 		try {
 			bluetoothSocket.connect();
