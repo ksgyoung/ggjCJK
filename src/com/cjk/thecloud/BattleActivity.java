@@ -5,6 +5,7 @@ import com.cjk.thecloud.game.Game;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -39,12 +40,14 @@ public class BattleActivity extends Activity {
 	
 	public void onAttack1Clicked(View v) {
 		int db = 0;
-		
 		if (controller.attemptHit()) {
 			controller.attack();	
 		}
 		
 		/*try {
+=======
+		try {
+>>>>>>> 2616744fc62ac270fc7b425a8861b79e1c4e0cee
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

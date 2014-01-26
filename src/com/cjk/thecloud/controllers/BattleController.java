@@ -6,9 +6,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.cjk.thecloud.BattleActivity;
-import com.cjk.thecloud.WarMapActivity;
 import com.cjk.thecloud.game.Game;
 import com.cjk.thecloud.game.elements.Jammer;
+import com.cjk.thecloud.game.elements.Server;
 import com.cjk.thecloud.util.Dice;
 
 public class BattleController {
@@ -17,6 +17,7 @@ public class BattleController {
 	private String enemyName;
 	private String TAG = "BattleController";
 	private BattleActivity activity;
+	private String myBluetoothName;
 	
 	private BattleController(){}
 	
@@ -99,7 +100,8 @@ public class BattleController {
 	
 	public double attack() {
 		//int enemyDefenceRate = Game.getInstance().getEnemyServer().getDefenceRate() ;
-		int myAttackRate = Game.getInstance().getMyServer().getAttackRate();
+		Server myServer = Game.getInstance().getMyServer();
+		int myAttackRate = myServer.getAttackRate();
 		Dice dice = Dice.getInstance();
 		int damage = dice.getRoll(myAttackRate / 2 - 1) + 1;
 		//float damageReductionRate = (float) (dice.getRoll(enemyDefenceRate / 2) / 10.0);
@@ -112,11 +114,29 @@ public class BattleController {
 		
 		activity.setEnemyHealth(enemyJammer.getHealth());
 		
+		if(jammerIsDead(enemyJammer)) {
+			Jammer myJammer = myServer.getJammer();
+			Toast.makeText(activity, "Enemy died", Toast.LENGTH_SHORT).show();
+			
+			myJammer.addPacket(enemyJammer.takeAttackPacket());
+			myJammer.addPacket(enemyJammer.takeDefencePacket());
+		}
+		
 		return damage;
 	}
 	
+	private boolean jammerIsDead(Jammer jammer) {
+		if(jammer.getHealth() <= 0) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public double getAttacked() {
-		int enemyAttackRate = Game.getInstance().getEnemyServer().getAttackRate();
+		Server enemyServer = Game.getInstance().getEnemyServer();
+		
+		int enemyAttackRate = enemyServer.getAttackRate();
 		Dice dice = Dice.getInstance();
 		int damage = dice.getRoll(enemyAttackRate / 2 - 1) + 1;
 		
@@ -124,6 +144,15 @@ public class BattleController {
 		myJammer.addDamage(damage);
 		
 		activity.setMyHealth(myJammer.getHealth());
+		
+		if(jammerIsDead(myJammer)) {
+			Jammer enemyJammer = enemyServer.getJammer();
+			Toast.makeText(activity, "I died", Toast.LENGTH_SHORT).show();
+			
+			enemyJammer.addPacket(myJammer.takeAttackPacket());
+			enemyJammer.addPacket(myJammer.takeDefencePacket());
+			
+		}
 		
 		Toast toast = Toast.makeText(activity, "Enemy attack: " + damage, Toast.LENGTH_SHORT);
 		toast.show();
@@ -140,6 +169,14 @@ public class BattleController {
 
 	public void setActivity(BattleActivity activity) {
 		this.activity = activity;
+	}
+
+	public String getMyBluetoothName() {
+		return myBluetoothName;
+	}
+
+	public void setMyBluetoothName(String myBluetoothName) {
+		this.myBluetoothName = myBluetoothName;
 	}
 
 }

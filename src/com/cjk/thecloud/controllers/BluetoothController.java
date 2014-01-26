@@ -23,6 +23,7 @@ public class BluetoothController {
 	
 	public boolean bluetoothIsEnabled() {
 		return BluetoothUtils.getInstance().getBluetoothAdapter().isEnabled();
+		
 	}
 
 }

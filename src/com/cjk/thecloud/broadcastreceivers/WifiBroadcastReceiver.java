@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.cjk.thecloud.controllers.BattleController;
 import com.cjk.thecloud.controllers.WifiController;
+import com.cjk.thecloud.game.GameCreator;
 
 public class WifiBroadcastReceiver extends BroadcastReceiver {
 
@@ -33,6 +34,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
 		
 		if (connected) {
 			//Get 
+			GameCreator.createGame();
 			BattleController.getInstance().startBattleActivity(context,"Wild Wifi Jammer");
 		}
 	}
