@@ -1,11 +1,14 @@
 package com.cjk.thecloud.controllers;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.cjk.thecloud.BattleActivity;
+import com.cjk.thecloud.R;
 import com.cjk.thecloud.game.Game;
 import com.cjk.thecloud.game.elements.Jammer;
 import com.cjk.thecloud.game.elements.Server;
@@ -120,9 +123,26 @@ public class BattleController {
 			
 			myJammer.addPacket(enemyJammer.takeAttackPacket());
 			myJammer.addPacket(enemyJammer.takeDefencePacket());
+		
+			showDeathDialog("Congratulations! You have defeated your enemy and received two packets");
 		}
 		
 		return damage;
+	}
+	
+	private void showDeathDialog(String message) {
+		 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+		        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int id) {
+		                // User clicked OK button
+		            	activity.finish();
+		            }
+		        });
+		       
+		        AlertDialog dialog = builder.create();
+
+		        dialog.setTitle(message);
+		        dialog.show();
 	}
 	
 	private boolean jammerIsDead(Jammer jammer) {
@@ -152,6 +172,7 @@ public class BattleController {
 			enemyJammer.addPacket(myJammer.takeAttackPacket());
 			enemyJammer.addPacket(myJammer.takeDefencePacket());
 			
+			showDeathDialog("You have lost. The enemy has taken two packets");
 		}
 		
 		Toast toast = Toast.makeText(activity, "Enemy attack: " + damage, Toast.LENGTH_SHORT);

@@ -51,7 +51,9 @@
 
         <activity
             android:name="com.cjk.thecloud.BattleActivity"
-            android:label="@string/title_activity_battle" >
+            android:label="@string/title_activity_battle" 
+            android:screenOrientation="landscape" 
+            android:configChanges="orientation|keyboardHidden">
         </activity>
     </application>
 
