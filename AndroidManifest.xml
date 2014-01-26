@@ -45,7 +45,7 @@
 	    
 	    <receiver android:name="com.cjk.thecloud.broadcastreceivers.WifiBroadcastReceiver">
 	        <intent-filter>
-                <action android:name="android.net.wifi.supplicant.CONNECTION_CHANGE" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
