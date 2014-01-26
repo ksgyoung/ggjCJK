@@ -5,18 +5,17 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.cjk.thecloud.BattleActivity;
 import com.cjk.thecloud.WarMapActivity;
-import com.cjk.thecloud.game.Battle;
 import com.cjk.thecloud.game.Game;
 import com.cjk.thecloud.util.Dice;
 
 public class BattleController {
 	
 	private static BattleController instance;
-	private WarMapActivity activity;
-	private Battle battle;
 	private String enemyName;
 	private String TAG = "BattleController";
+	private BattleActivity activity;
 	
 	private BattleController(){}
 	
@@ -31,7 +30,8 @@ public class BattleController {
 		Log.d(TAG, "Battling " + enemyName);
 		this.enemyName = enemyName;
 		
-		Intent intent = new Intent(context, WarMapActivity.class);
+		Intent intent = new Intent(context, BattleActivity.class);
+
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
 	}
@@ -64,7 +64,6 @@ public class BattleController {
 		}
 		Toast toast = Toast.makeText(activity, "Enemy ran away.", Toast.LENGTH_LONG);
 		toast.show();
-		activity.disappearEnemy();
 		return false;
 	}
 	
@@ -72,16 +71,11 @@ public class BattleController {
 		return Game.getInstance().getEnemyServer().getNumPackets();
 	}
 
-	public void startBattle() {
-		battle = new Battle();
-		battle.battleLoop(this);
-	}
-	
-	public WarMapActivity getActivity() {
+	public BattleActivity getActivity() {
 		return activity;
 	}
 
-	public void setActivity(WarMapActivity activity) {
+	public void setActivity(BattleActivity activity) {
 		this.activity = activity;
 	}
 

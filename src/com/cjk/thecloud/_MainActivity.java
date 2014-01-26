@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.cjk.thecloud.networking.BluetoothClient;
 import com.cjk.thecloud.networking.BluetoothServer;
-import com.cjk.thecloud.networking.BluetoothService2;
+//import com.cjk.thecloud.networking.BluetoothService2;
 import com.cjk.thecloud.networking.ConnectThread;
 import com.cjk.thecloud.networking.ConnectedThread;
 import com.cjk.thecloud.util.BluetoothUtils;
@@ -31,7 +31,7 @@ public class _MainActivity extends Activity {
 	private final int REQUEST_PAIR = 1;
 	private final int REQUEST_ENABLE = 0;
 	private final String EXTRA_DEVICE_ADDRESS  = "device_address";	
-	private BluetoothService2 bluetoothService;
+	//private BluetoothService2 bluetoothService;
 	protected static final int SUCCESS_CONNECT = 0;
     protected static final int MESSAGE_READ = 1;
     
@@ -71,7 +71,7 @@ public class _MainActivity extends Activity {
 		
 		//buttonSearchBattle = (Button) findViewById(R.id.buttonSearchBattle);
 		buttonSearchBattle.setOnClickListener(searchBattleListener);
-		bluetoothService = new BluetoothService2(getApplicationContext());
+		//bluetoothService = new BluetoothService2(getApplicationContext());
 		
 		mHandler = new CommunicationHandler();
 		
