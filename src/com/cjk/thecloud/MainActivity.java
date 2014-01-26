@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
 			createDialog();
 		} else {
 			GameCreator.createGame();
+		BattleController.getInstance().setMyBluetoothName(BluetoothUtils.getInstance().getLocalBluetoothName());
 		}
 	}
 
@@ -83,10 +84,8 @@ public class MainActivity extends Activity {
 			alertDialog.show();
 	}
 
-	OnClickListener bluetoothOnClickListener = new View.OnClickListener() {
+	public void onBluetoothClick(View view) {
 		
-		@Override
-		public void onClick(View v) {
 			BluetoothUtils utils = BluetoothUtils.getInstance();
 			
 			Log.d("BLUETOOTH", "search battle pressed");
@@ -97,10 +96,8 @@ public class MainActivity extends Activity {
 			}
 			
 			Intent intent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
-		    startActivityForResult(intent, REQUEST_PAIR);
-						
-		}
-	};
+		    startActivityForResult(intent, REQUEST_PAIR);			
+	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -110,8 +107,12 @@ public class MainActivity extends Activity {
 			
 			Log.d("BLUETOOTH", "Paired with a device");
 			
-			BluetoothDevice device = BluetoothUtils.getInstance().getPairedDevices().iterator().next();
-			BattleController.getInstance().startBattleActivity(this, device.getName());
+			Set<BluetoothDevice> devices = BluetoothUtils.getInstance().getPairedDevices();
+			
+			if(devices.size() > 0) {
+				BluetoothDevice device = devices.iterator().next();
+				BattleController.getInstance().startBattleActivity(this, device.getName());
+			}
 			
 			break;
 
