@@ -38,7 +38,8 @@ public class BattleController {
 		Intent intent = new Intent(context, BattleActivity.class);
 
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.startActivity(intent);
+		intent.putExtra("enemy_name", enemyName);
+		context.startActivity(intent);	
 	}
 	
 	public void doBattle() {

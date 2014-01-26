@@ -15,6 +15,7 @@ public class BattleActivity extends Activity {
 
 	private BattleController controller;
 	ProgressBar enemyHealthBar, myHealthBar;
+	TextView enemyName, myName;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,9 @@ public class BattleActivity extends Activity {
 		controller.setActivity(this);
 		enemyHealthBar = (ProgressBar) findViewById(R.id.activity_battle_enemy_health);
 		myHealthBar = (ProgressBar) findViewById(R.id.activity_battle_my_health);
+		enemyName = (TextView) findViewById(R.id.activity_battle_enemy_name);
+		myName = (TextView) findViewById(R.id.activity_battle_my_name);
+		setEnemyName(this.getIntent().getStringExtra("enemy_name"));
 	}
 
 	@Override
@@ -40,12 +44,12 @@ public class BattleActivity extends Activity {
 			controller.attack();	
 		}
 		
-		try {
+		/*try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		if (!controller.attemptDodge()) {
 			controller.getAttacked();
@@ -58,6 +62,14 @@ public class BattleActivity extends Activity {
 	
 	public void setMyHealth(int health) {
 		myHealthBar.setProgress(health);
+	}
+	
+	public void setEnemyName(String name) {
+		enemyName.setText(name);
+	}
+	
+	public void setMyName(String name) {
+		myName.setText(name);
 	}
 
 }
