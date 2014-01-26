@@ -7,81 +7,122 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".BattleActivity" >
+    tools:context=".BattleActivity"
+    android:orientation="horizontal"
+    android:screenOrientation="landscape"
+    android:configChanges="orientation|keyboardHidden"
+    android:name="VncCanvasActivity" >
 
     <LinearLayout
         android:layout_width="150dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="10dp"
-        android:background="@drawable/rounded_rectangle"
+        android:layout_weight="1"
         android:orientation="vertical" 
+        android:gravity="center"
         android:layout_marginRight="10dp">
 
         <ProgressBar
             android:id="@+id/activity_battle_my_health"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="125dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
+            android:progressDrawable="@drawable/progress_line_me"
             android:max="10"
            android:progress="10" />
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="118dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:src="@drawable/dog" />
         
         <TextView
+            android:id="@+id/activity_battle_my_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Me"
+            android:textColor="#c83737"
+            android:layout_margin="8dp" >
+
+</TextView>
+        
+        
+    </LinearLayout>
+    
+    <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="vertical" >
+
+   <TextView
             android:onClick="onAttack1Clicked"
             android:id="@+id/activity_battle_attack1"
             android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/black"
+            android:padding="8dp"
+            android:gravity="center"
+            android:background="#c83737"
             android:text="> attack 1"
             android:layout_marginBottom="5dp"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:layout_weight="1" />
         
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/black"
             android:layout_marginBottom="5dp"
+            android:padding="8dp"
+            android:gravity="center"
+            android:background="#c83737"
             android:text="> attack 2"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:layout_weight="1" />
         
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/black"
+            android:padding="8dp"
+            android:gravity="center"
+            android:background="#c83737"
             android:text="> run"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:layout_weight="1" />
-    </LinearLayout>
+        
+        </LinearLayout>
     
    <LinearLayout
         android:layout_width="150dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+         android:layout_weight="1"
         android:padding="10dp"
-        
-        android:background="@drawable/rounded_rectangle"
+        android:gravity="center"
         android:orientation="vertical" >
 
        <ProgressBar
            android:id="@+id/activity_battle_enemy_health"
            style="?android:attr/progressBarStyleHorizontal"
-           android:layout_width="match_parent"
+           android:layout_width="140dp"
            android:layout_height="wrap_content"
-           android:layout_weight="0.73"
            android:max="10"
-           android:progress="10" />
+           android:progress="10" 
+           android:progressDrawable="@drawable/progress_line_enemy"></ProgressBar>
 
-        <ImageView
+       <ImageView
+           android:layout_width="150dp"
+           android:layout_height="150dp"
+           android:src="@drawable/g3876" />
+       
+       <TextView
+            android:id="@+id/activity_battle_enemy_name"
             android:layout_width="wrap_content"
-            android:layout_height="131dp"
-            android:src="@drawable/g3876"
-            android:layout_weight="1" />
+            android:layout_height="wrap_content"
+            android:text="Enemy"
+            android:textColor="#00ffff"
+            android:layout_margin="8dp" />
+
     </LinearLayout>
+    
+   
 
 </LinearLayout>
