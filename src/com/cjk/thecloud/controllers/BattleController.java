@@ -175,7 +175,7 @@ public class BattleController {
 			showDeathDialog("You have lost - shame on you");
 		}
 		
-		Toast toast = Toast.makeText(activity, "Enemy attack: " + damage, Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(activity, "Damage to me: " + damage, Toast.LENGTH_SHORT);
 		toast.show();
 		return damage;
 	}
