@@ -11,9 +11,9 @@ public class GameCreator {
 	
 	private static final String TAG = GameCreator.class.getSimpleName();
 	
-	Game game = Game.getInstance();
-	
 	public static void createGame() {
+		Game game = Game.getInstance();
+		
 		Server myServer = new Server("my_server");
 		Jammer jammer1 = new Jammer("attack_jammer", Type.ATTACK);
 		for (int i = 0; i < 5; i++) {
@@ -45,6 +45,9 @@ public class GameCreator {
 		Log.d(TAG, "Jammer2, Defence: " + jammer2.getDefenceRate());
 		
 		enemyServer.addJammer(jammer2);
+		
+		Game.getInstance().setMyServer(myServer);
+		Game.getInstance().setEnemyServer(enemyServer);
 	}
 	
 	public static void loadGame() {

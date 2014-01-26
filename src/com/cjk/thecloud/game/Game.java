@@ -15,10 +15,9 @@ public class Game {
 	
 	public static Game getInstance() {
 		if (instance == null) {
-			return new Game();
-		} else {
-			return instance;
-		}
+			instance = new Game();
+		} 
+		return instance;
 	}
 	
 	public Server getMyServer() {

@@ -4,14 +4,14 @@ import java.util.Random;
 
 public class Dice {
 	
-	private Dice instance;	
+	private static Dice instance;	
 	private Random random;
 	
 	private Dice() {
 		random = new Random();
 	}
 	
-	public Dice getInstance() {
+	public static Dice getInstance() {
 		if (instance == null) {
 			instance = new Dice();
 		}

@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_stars"
+    tools:context=".WarMapActivity" >
+
+   <RelativeLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/activity_war_map_enemy_layout" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/activity_war_map_enemy_id_text_view"
+        android:layout_below="@+id/activity_war_map_enemy_id_text_view"
+        android:text="6 packets" />
+
+    <TextView
+        android:id="@+id/activity_war_map_enemy_id_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="37dp"
+        android:layout_marginTop="82dp"
+        android:text="Samsung S2"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/activity_war_map_enemy_id_text_view"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/textView1"
+        android:src="@drawable/jam"
+        android:onClick="jamButtonClicked" />
+    </RelativeLayout>
+    
+   <RelativeLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:paddingRight="200dp"
+       android:paddingTop="70dp" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/activity_war_map_enemy_id_text_view"
+        android:layout_below="@+id/activity_war_map_enemy_id_text_view"
+        android:text="10 packets" />
+
+    <TextView
+        android:id="@+id/activity_war_map_enemy_id_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="37dp"
+        android:layout_marginTop="82dp"
+        android:text="HTC Desire"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/activity_war_map_enemy_id_text_view"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/textView1"
+        android:src="@drawable/jam" />
+    </RelativeLayout>
+
+    
+    
+</RelativeLayout>
