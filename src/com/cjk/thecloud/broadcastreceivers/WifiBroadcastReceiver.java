@@ -19,7 +19,6 @@ import com.cjk.thecloud.R;
 import com.cjk.thecloud.controllers.BattleController;
 import com.cjk.thecloud.controllers.WifiController;
 import com.cjk.thecloud.game.GameCreator;
-import com.cjk.thecloud.util.StartBattleDialogFragment;
 
 public class WifiBroadcastReceiver extends BroadcastReceiver {
 	public Context context;

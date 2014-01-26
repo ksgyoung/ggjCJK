@@ -124,7 +124,7 @@ public class BattleController {
 			myJammer.addPacket(enemyJammer.takeAttackPacket());
 			myJammer.addPacket(enemyJammer.takeDefencePacket());
 		
-			showDeathDialog("Congratulations! You have defeated your enemy and received two packets");
+			showDeathDialog("Congratulations! You have defeated your enemy");
 		}
 		
 		return damage;
@@ -172,7 +172,7 @@ public class BattleController {
 			enemyJammer.addPacket(myJammer.takeAttackPacket());
 			enemyJammer.addPacket(myJammer.takeDefencePacket());
 			
-			showDeathDialog("You have lost. The enemy has taken two packets");
+			showDeathDialog("You have lost - shame on you");
 		}
 		
 		Toast toast = Toast.makeText(activity, "Enemy attack: " + damage, Toast.LENGTH_SHORT);
