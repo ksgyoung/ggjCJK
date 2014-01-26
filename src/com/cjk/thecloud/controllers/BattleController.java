@@ -21,7 +21,7 @@ public class BattleController {
 	private String TAG = "BattleController";
 	private BattleActivity activity;
 	private String myBluetoothName;
-	
+	public boolean battleStarted = false;
 	private BattleController(){}
 	
 	public static BattleController getInstance() {

@@ -36,12 +36,14 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
 		if (connected) {
 			strength = getConnectionStrength(context,intent);
 			internetAvailable = isInternetAvailable(context, intent);
+			
 		}
 		
 		WifiController controller = WifiController.getInstance();
 		controller.setConnectivity(connected, strength, internetAvailable);
 		
-		if (connected) {			
+		if (connected  && BattleController.getInstance().battleStarted == false) {	
+			BattleController.getInstance().battleStarted = true;
 			Intent dialogOpen = new Intent(context,MainActivity.class);
 			dialogOpen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			dialogOpen.putExtra("WifiConnected", true);

@@ -35,6 +35,14 @@ public class BattleActivity extends Activity {
 		setEnemyName(this.getIntent().getStringExtra("enemy_name"));
 		setMyName(controller.getMyBluetoothName());
 	}
+	
+	@Override
+	public void finish() {
+		// TODO Auto-generated method stub
+		BattleController.getInstance().battleStarted = false;
+		super.finish();
+		
+	}					
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

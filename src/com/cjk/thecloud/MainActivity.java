@@ -62,7 +62,7 @@ public class MainActivity extends Activity {
 
 		// set dialog message
 		alertDialogBuilder
-			.setMessage("Oh look! A jammer has crossed your path! Would you like to battle it for packets?")
+			.setMessage("Oh look! A jammer has crossed your path! Would you like to battle it to catch it?")
 			.setCancelable(false)
 			.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
