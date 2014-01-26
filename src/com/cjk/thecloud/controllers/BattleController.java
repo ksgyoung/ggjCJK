@@ -75,11 +75,11 @@ public class BattleController {
 		int myAttackRate = Game.getInstance().getMyServer().getAttackRate();
 		Dice dice = Dice.getInstance();
 		if (dice.getRoll(enemyDefenceRate) < dice.getRoll(myAttackRate)) {
-			Toast toast = Toast.makeText(activity, "Hit!", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(activity, "I hit the enemy!", Toast.LENGTH_SHORT);
 			toast.show();
 			return true;
 		}
-		Toast toast = Toast.makeText(activity, "Missed!", Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(activity, "I missed the enemy!", Toast.LENGTH_SHORT);
 		toast.show();
 		return false;
 	}
@@ -89,11 +89,11 @@ public class BattleController {
 		int enemyAttackRate = Game.getInstance().getEnemyServer().getAttackRate();
 		Dice dice = Dice.getInstance();
 		if (dice.getRoll(myDefenceRate) < dice.getRoll(enemyAttackRate)) {
-			Toast toast = Toast.makeText(activity, "Hit!", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(activity, "Enemy hit me!", Toast.LENGTH_SHORT);
 			toast.show();
 			return false;
 		}
-		Toast toast = Toast.makeText(activity, "Dodged!", Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(activity, "I dodged!", Toast.LENGTH_SHORT);
 		toast.show();
 		return true;
 	}
@@ -106,7 +106,7 @@ public class BattleController {
 		int damage = dice.getRoll(myAttackRate / 2 - 1) + 1;
 		//float damageReductionRate = (float) (dice.getRoll(enemyDefenceRate / 2) / 10.0);
 		//damage = (Integer) Math.round(damage * damageReductionRate);
-		Toast toast = Toast.makeText(activity, "My attack: " + damage, Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(activity, "Damage to enemy: " + damage, Toast.LENGTH_SHORT);
 		toast.show();
 		
 		Jammer enemyJammer = Game.getInstance().getEnemyServer().getJammer();

@@ -10,33 +10,33 @@
     android:screenOrientation="landscape"
     android:configChanges="orientation|keyboardHidden"
     android:name="VncCanvasActivity"
-    android:background="@android:color/black">
+    android:background="@android:color/black"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onBluetoothClick"
+        android:clickable="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/scan" />
 
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+        android:layout_width="143dp"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="14dp"
-        android:text="Simulate Battle"
-        android:onClick="onButtonClick" />
-
-    <Button
-        android:id="@+id/buttonBluetooth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_alignRight="@+id/button1"
-        android:layout_below="@+id/button1"
-        android:layout_marginTop="25dp"
-        android:onClick="onBluetoothClick"
-        android:text="Start Bluetooth Battle" />
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Start Bluetooth Battle"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#DDFF00" />
+    </LinearLayout>
 
 </RelativeLayout>
