@@ -32,6 +32,7 @@
            android:progress="10" />
 
         <ImageView
+            android:id="@+id/meImage"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/dog" />
@@ -109,6 +110,7 @@
            android:progressDrawable="@drawable/progress_line_enemy"></ProgressBar>
 
        <ImageView
+           android:id="@+id/enemyImage"
            android:layout_width="150dp"
            android:layout_height="150dp"
            android:src="@drawable/cat" />

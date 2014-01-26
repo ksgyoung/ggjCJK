@@ -6,9 +6,11 @@ import com.cjk.thecloud.game.Game;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -34,6 +36,14 @@ public class BattleActivity extends Activity {
 		myName = (TextView) findViewById(R.id.activity_battle_my_name);
 		setEnemyName(this.getIntent().getStringExtra("enemy_name"));
 		setMyName(controller.getMyBluetoothName());
+		
+		ImageView enemyImage = (ImageView) findViewById(R.id.enemyImage);
+		TextView enemyText = (TextView) findViewById(R.id.activity_battle_enemy_name);
+		
+		if(enemyName.getText().toString().contains("Wifi")) {
+			enemyImage.setImageResource(R.drawable.elephant);
+			enemyText.setTextColor(Color.parseColor("#44aa00"));
+		} 
 	}
 	
 	@Override
