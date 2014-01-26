@@ -39,10 +39,12 @@ public class BattleActivity extends Activity {
 		
 		ImageView enemyImage = (ImageView) findViewById(R.id.enemyImage);
 		TextView enemyText = (TextView) findViewById(R.id.activity_battle_enemy_name);
+		ProgressBar enemyProgress = (ProgressBar) findViewById(R.id.activity_battle_enemy_health);
 		
 		if(enemyName.getText().toString().contains("Wifi")) {
 			enemyImage.setImageResource(R.drawable.elephant);
 			enemyText.setTextColor(Color.parseColor("#44aa00"));
+			enemyProgress.setProgressDrawable(getResources().getDrawable(R.drawable.progress_line_green));
 		} 
 	}
 	
