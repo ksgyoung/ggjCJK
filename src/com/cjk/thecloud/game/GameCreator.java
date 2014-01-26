@@ -32,11 +32,11 @@ public class GameCreator {
 		
 		Server enemyServer = new Server("enemy_server");
 		Jammer jammer2 = new Jammer("defence_jammer", Type.DEFENCE);
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 5; i++) {
 			Packet packet2 = new Packet("attack_packet", Type.DEFENCE);
 			jammer2.addPacket(packet2);
 		}
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 5; i++) {
 			Packet packet2 = new Packet("defence_packet", Type.ATTACK);
 			jammer2.addPacket(packet2);
 		}

@@ -18,10 +18,12 @@
         android:layout_marginRight="10dp">
 
         <ProgressBar
-            android:id="@+id/progressBar2"
+            android:id="@+id/activity_battle_my_health"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="125dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:max="10"
+           android:progress="10" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -30,6 +32,8 @@
         
         <TextView
             android:onClick="onAttack1Clicked"
+            android:id="@+id/activity_battle_attack1"
+            android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/black"
@@ -65,11 +69,13 @@
         android:orientation="vertical" >
 
        <ProgressBar
-           android:id="@+id/progressBar1"
+           android:id="@+id/activity_battle_enemy_health"
            style="?android:attr/progressBarStyleHorizontal"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:layout_weight="0.73" />
+           android:layout_weight="0.73"
+           android:max="10"
+           android:progress="10" />
 
         <ImageView
             android:layout_width="wrap_content"

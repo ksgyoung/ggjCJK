@@ -14,6 +14,7 @@ public class Jammer extends GameElement {
 	private List<Packet> attackPackets = new ArrayList<Packet>();
 	private List<Packet> defencePackets = new ArrayList<Packet>();
 	private Type type;	
+	private int damage = 0;
 	
 	public Jammer(String id, Type type) {
 		super(id);
@@ -47,6 +48,18 @@ public class Jammer extends GameElement {
 		if (packets.size() == 0) {
 			Log.d(sharedPrefID, "Fainting.");
 		}
+	}
+	
+	public void addDamage(int amount) {
+		damage += amount;
+	}
+	
+	public void removeDamage(int amount) {
+		damage -= amount;
+	}
+	
+	public int getHealth() {
+		return getNumPackets() - damage;
 	}
 	
 	public Type getType() {

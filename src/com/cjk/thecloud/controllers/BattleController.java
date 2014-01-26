@@ -2,16 +2,20 @@ package com.cjk.thecloud.controllers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.cjk.thecloud.BattleActivity;
 import com.cjk.thecloud.WarMapActivity;
 import com.cjk.thecloud.game.Game;
+import com.cjk.thecloud.game.elements.Jammer;
 import com.cjk.thecloud.util.Dice;
 
 public class BattleController {
 	
 	private static BattleController instance;
+	private String enemyName;
+	private String TAG = "BattleController";
 	private BattleActivity activity;
 	
 	private BattleController(){}
@@ -23,8 +27,12 @@ public class BattleController {
 		return instance;
 	}
 	
-	public void startBattleActivity(Context context) {
+	public void startBattleActivity(Context context, String enemyName) {
+		Log.d(TAG, "Battling " + enemyName);
+		this.enemyName = enemyName;
+		
 		Intent intent = new Intent(context, BattleActivity.class);
+
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
 	}
@@ -58,6 +66,67 @@ public class BattleController {
 		Toast toast = Toast.makeText(activity, "Enemy ran away.", Toast.LENGTH_LONG);
 		toast.show();
 		return false;
+	}
+	
+	public boolean attemptHit() {
+		int enemyDefenceRate = Game.getInstance().getEnemyServer().getDefenceRate();
+		int myAttackRate = Game.getInstance().getMyServer().getAttackRate();
+		Dice dice = Dice.getInstance();
+		if (dice.getRoll(enemyDefenceRate) < dice.getRoll(myAttackRate)) {
+			Toast toast = Toast.makeText(activity, "Hit!", Toast.LENGTH_SHORT);
+			toast.show();
+			return true;
+		}
+		Toast toast = Toast.makeText(activity, "Missed!", Toast.LENGTH_SHORT);
+		toast.show();
+		return false;
+	}
+	
+	public boolean attemptDodge() {
+		int myDefenceRate = Game.getInstance().getMyServer().getDefenceRate();
+		int enemyAttackRate = Game.getInstance().getEnemyServer().getAttackRate();
+		Dice dice = Dice.getInstance();
+		if (dice.getRoll(myDefenceRate) < dice.getRoll(enemyAttackRate)) {
+			Toast toast = Toast.makeText(activity, "Hit!", Toast.LENGTH_SHORT);
+			toast.show();
+			return false;
+		}
+		Toast toast = Toast.makeText(activity, "Dodged!", Toast.LENGTH_SHORT);
+		toast.show();
+		return true;
+	}
+	
+	public double attack() {
+		//int enemyDefenceRate = Game.getInstance().getEnemyServer().getDefenceRate() ;
+		int myAttackRate = Game.getInstance().getMyServer().getAttackRate();
+		Dice dice = Dice.getInstance();
+		int damage = dice.getRoll(myAttackRate / 2 - 1) + 1;
+		//float damageReductionRate = (float) (dice.getRoll(enemyDefenceRate / 2) / 10.0);
+		//damage = (Integer) Math.round(damage * damageReductionRate);
+		Toast toast = Toast.makeText(activity, "My attack: " + damage, Toast.LENGTH_SHORT);
+		toast.show();
+		
+		Jammer enemyJammer = Game.getInstance().getEnemyServer().getJammer();
+		enemyJammer.addDamage(damage);
+		
+		activity.setEnemyHealth(enemyJammer.getHealth());
+		
+		return damage;
+	}
+	
+	public double getAttacked() {
+		int enemyAttackRate = Game.getInstance().getEnemyServer().getAttackRate();
+		Dice dice = Dice.getInstance();
+		int damage = dice.getRoll(enemyAttackRate / 2 - 1) + 1;
+		
+		Jammer myJammer = Game.getInstance().getMyServer().getJammer();
+		myJammer.addDamage(damage);
+		
+		activity.setMyHealth(myJammer.getHealth());
+		
+		Toast toast = Toast.makeText(activity, "Enemy attack: " + damage, Toast.LENGTH_SHORT);
+		toast.show();
+		return damage;
 	}
 	
 	public double getEnemyPackets() {
