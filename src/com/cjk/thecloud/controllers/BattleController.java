@@ -2,6 +2,7 @@ package com.cjk.thecloud.controllers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.cjk.thecloud.WarMapActivity;
@@ -14,6 +15,8 @@ public class BattleController {
 	private static BattleController instance;
 	private WarMapActivity activity;
 	private Battle battle;
+	private String enemyName;
+	private String TAG = "BattleController";
 	
 	private BattleController(){}
 	
@@ -24,7 +27,10 @@ public class BattleController {
 		return instance;
 	}
 	
-	public void startBattleActivity(Context context) {
+	public void startBattleActivity(Context context, String enemyName) {
+		Log.d(TAG, "Battling " + enemyName);
+		this.enemyName = enemyName;
+		
 		Intent intent = new Intent(context, WarMapActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
