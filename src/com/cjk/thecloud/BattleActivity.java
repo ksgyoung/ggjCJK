@@ -5,6 +5,7 @@ import com.cjk.thecloud.game.Game;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -20,8 +21,11 @@ public class BattleActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_battle);
 		getActionBar().hide();
+		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		
 		controller = BattleController.getInstance();
 		controller.setActivity(this);
 		enemyHealthBar = (ProgressBar) findViewById(R.id.activity_battle_enemy_health);
@@ -29,6 +33,7 @@ public class BattleActivity extends Activity {
 		enemyName = (TextView) findViewById(R.id.activity_battle_enemy_name);
 		myName = (TextView) findViewById(R.id.activity_battle_my_name);
 		setEnemyName(this.getIntent().getStringExtra("enemy_name"));
+		setMyName(controller.getMyBluetoothName());
 	}
 
 	@Override
