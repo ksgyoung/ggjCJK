@@ -33,10 +33,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
 		
 		if (connected) {
 			//Get 
-			BattleController.getInstance().startBattleActivity("Wild Wifi Jammer");
-			BattleCont
-			
-			Jammer ourJammer = new Jammer("011000110110000101110100",)
+			BattleController.getInstance().startBattleActivity(context,"Wild Wifi Jammer");
 		}
 	}
 
