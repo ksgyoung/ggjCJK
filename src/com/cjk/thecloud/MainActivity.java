@@ -16,6 +16,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -31,11 +32,14 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
 		if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("WifiConnected")) {
 			createDialog();
 		} else {
+			getActionBar().hide();
+			this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			GameCreator.createGame();
-		BattleController.getInstance().setMyBluetoothName(BluetoothUtils.getInstance().getLocalBluetoothName());
+			BattleController.getInstance().setMyBluetoothName(BluetoothUtils.getInstance().getLocalBluetoothName());
 		}
 	}
 

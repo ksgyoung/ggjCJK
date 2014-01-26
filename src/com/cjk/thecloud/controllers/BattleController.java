@@ -71,7 +71,7 @@ public class BattleController {
 	}
 	
 	public boolean attemptHit() {
-		int enemyDefenceRate = Game.getInstance().getEnemyServer().getDefenceRate();
+		int enemyDefenceRate = Game.getInstance().getEnemyServer().getDefenceRate()/2;
 		int myAttackRate = Game.getInstance().getMyServer().getAttackRate();
 		Dice dice = Dice.getInstance();
 		if (dice.getRoll(enemyDefenceRate) < dice.getRoll(myAttackRate)) {
@@ -85,7 +85,7 @@ public class BattleController {
 	}
 	
 	public boolean attemptDodge() {
-		int myDefenceRate = Game.getInstance().getMyServer().getDefenceRate();
+		int myDefenceRate = Game.getInstance().getMyServer().getDefenceRate()/2;
 		int enemyAttackRate = Game.getInstance().getEnemyServer().getAttackRate();
 		Dice dice = Dice.getInstance();
 		if (dice.getRoll(myDefenceRate) < dice.getRoll(enemyAttackRate)) {
