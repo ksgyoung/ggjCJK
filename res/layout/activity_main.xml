@@ -9,7 +9,8 @@
     tools:context=".MainActivity" 
     android:screenOrientation="landscape"
     android:configChanges="orientation|keyboardHidden"
-    android:name="VncCanvasActivity">
+    android:name="VncCanvasActivity"
+    android:background="@android:color/black">
 
     <TextView
         android:id="@+id/textView1"
