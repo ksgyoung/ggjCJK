@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,6 +7,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" 
+    android:orientation="horizontal"
     android:screenOrientation="landscape"
     android:configChanges="orientation|keyboardHidden"
     android:name="VncCanvasActivity"
@@ -15,28 +16,50 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center" >
+        android:layout_height="200dp"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/imageView1"
+        <TextView
+            android:id="@+id/activity_main_packet_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="top"
+            android:text="Your server: \n hello"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#DDFF00" />
+    </LinearLayout>
+    
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onBluetoothClick"
-        android:clickable="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/scan" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="143dp"
-        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="Start Bluetooth Battle"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#DDFF00" />
+        android:layout_weight="1" >
+
+	    <ImageView
+	        android:id="@+id/imageView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:onClick="onBluetoothClick"
+	        android:clickable="true"
+	        android:layout_centerHorizontal="true"
+	        android:src="@drawable/scan" />
+	
+	    <TextView
+	        android:id="@+id/textView1"
+	        android:layout_width="143dp"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:layout_marginTop="10dp"
+	        android:text="Start Bluetooth Battle"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:textColor="#DDFF00" />
     </LinearLayout>
 
-</RelativeLayout>
+    
+    
+</LinearLayout>

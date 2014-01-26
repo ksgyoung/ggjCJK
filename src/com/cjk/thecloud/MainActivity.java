@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.cjk.thecloud.broadcastreceivers.WifiBroadcastReceiver;
 import com.cjk.thecloud.controllers.BattleController;
+import com.cjk.thecloud.game.Game;
 import com.cjk.thecloud.game.GameCreator;
 import com.cjk.thecloud.networking.ConnectThread;
 import com.cjk.thecloud.util.BluetoothUtils;
@@ -21,6 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -32,15 +34,24 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		getActionBar().hide();
+		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		GameCreator.createGame();
+		String bluetoothname = BluetoothUtils.getInstance().getLocalBluetoothName();
+		BattleController.getInstance().setMyBluetoothName(bluetoothname);
+		
+		TextView textView = (TextView) findViewById(R.id.activity_main_packet_count);
+		textView.setText("> Your server:\n" + 
+				"> Name: " + bluetoothname + "\n" + 
+				"> # Jammers: " + Game.getInstance().getMyServer().getNumJammers() + "\n" + 
+				"> # Packets: " + Game.getInstance().getMyServer().getNumPackets() + "\n"
+				 + ">\n" + ">\n" + ">\n" + ">\n"
+				);
 
 		if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("WifiConnected")) {
 			createDialog();
-		} else {
-			getActionBar().hide();
-			this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-			GameCreator.createGame();
-			BattleController.getInstance().setMyBluetoothName(BluetoothUtils.getInstance().getLocalBluetoothName());
-		}
+		} 
 	}
 
 	@Override
@@ -69,7 +80,7 @@ public class MainActivity extends Activity {
 					// if this button is clicked, close
 					// current activity
 					 //Get 
-           			GameCreator.createGame();
+           			//GameCreator.createGame();
         			BattleController.getInstance().startBattleActivity(getApplicationContext(),"Wild Wifi Jammer");
 				}
 			  })
@@ -78,6 +89,7 @@ public class MainActivity extends Activity {
 					// if this button is clicked, just close
 					// the dialog box and do nothing
 					dialog.cancel();
+					BattleController.getInstance().battleStarted = false;
 				}
 			});
 

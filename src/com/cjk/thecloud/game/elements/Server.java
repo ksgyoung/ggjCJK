@@ -33,6 +33,10 @@ public class Server extends GameElement {
 		return numPackets;
 	}
 	
+	public int getNumJammers() {
+		return jammers.size();
+	}
+	
 	public int getAttackRate() {
 		int total = 0;
 		for (Jammer jammer : jammers) {
