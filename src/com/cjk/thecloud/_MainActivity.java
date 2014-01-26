@@ -69,7 +69,7 @@ public class _MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		BluetoothUtils.getInstance().setContext(getApplicationContext());
 		
-		buttonSearchBattle = (Button) findViewById(R.id.buttonSearchBattle);
+		//buttonSearchBattle = (Button) findViewById(R.id.buttonSearchBattle);
 		buttonSearchBattle.setOnClickListener(searchBattleListener);
 		bluetoothService = new BluetoothService2(getApplicationContext());
 		
