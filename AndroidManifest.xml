@@ -45,14 +45,15 @@
 	    
 	    <receiver android:name="com.cjk.thecloud.broadcastreceivers.WifiBroadcastReceiver">
 	        <intent-filter>
-                <action android:name="android.net.wifi.supplicant.CONNECTION_CHANGE" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
         <activity
             android:name="com.cjk.thecloud.BattleActivity"
-            android:label="@string/title_activity_battle" >
+            android:label="@string/title_activity_battle" 
+            android:screenOrientation="landscape" 
+            android:configChanges="orientation|keyboardHidden">
         </activity>
     </application>
 

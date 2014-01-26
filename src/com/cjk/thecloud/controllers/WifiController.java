@@ -6,7 +6,7 @@ public class WifiController {
 	public int connectionStrength = 0;
 	public boolean isFirstConnected = false;
 	public boolean isConnected = false;
-	
+
 	public void setConnectivity(boolean connected, int strength, boolean internetAccess) {
 		this.connectionStrength = strength;
 		this.isInternetConnected = internetAccess;
