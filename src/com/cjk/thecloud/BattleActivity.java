@@ -45,9 +45,6 @@ public class BattleActivity extends Activity {
 		}
 		
 		/*try {
-=======
-		try {
->>>>>>> 2616744fc62ac270fc7b425a8861b79e1c4e0cee
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
