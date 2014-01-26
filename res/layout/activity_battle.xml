@@ -27,7 +27,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:progressDrawable="@drawable/progress_line_me"
+            android:progressDrawable="@drawable/progress_line_red"
             android:max="10"
            android:progress="10" />
 
@@ -107,7 +107,7 @@
            android:layout_height="wrap_content"
            android:max="10"
            android:progress="10" 
-           android:progressDrawable="@drawable/progress_line_enemy"></ProgressBar>
+           android:progressDrawable="@drawable/progress_line_blue"></ProgressBar>
 
        <ImageView
            android:id="@+id/enemyImage"
