@@ -38,16 +38,10 @@ public class MainActivity extends Activity {
 		getActionBar().hide();
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		GameCreator.createGame();
-		String bluetoothname = BluetoothUtils.getInstance().getLocalBluetoothName();
-		BattleController.getInstance().setMyBluetoothName(bluetoothname);
+		String bluetoothName = BluetoothUtils.getInstance().getLocalBluetoothName();
+		BattleController.getInstance().setMyBluetoothName(bluetoothName);
 		
-		TextView textView = (TextView) findViewById(R.id.activity_main_packet_count);
-		textView.setText("> Your server:\n" + 
-				"> Name: " + bluetoothname + "\n" + 
-				"> # Jammers: " + Game.getInstance().getMyServer().getNumJammers() + "\n" + 
-				"> # Packets: " + Game.getInstance().getMyServer().getNumPackets() + "\n"
-				 + ">\n" + ">\n" + ">\n" + ">\n"
-				);
+		updateText(bluetoothName);
 
 		if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("WifiConnected")) {
 			createDialog();
@@ -69,7 +63,7 @@ public class MainActivity extends Activity {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		 
 		// set title
-		alertDialogBuilder.setTitle("Your Title");
+		alertDialogBuilder.setTitle("Found a jammer!");
 
 		// set dialog message
 		alertDialogBuilder
@@ -135,5 +129,22 @@ public class MainActivity extends Activity {
 		default:
 			break;
 		}
+	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		updateText(BluetoothUtils.getInstance().getLocalBluetoothName());
+	}
+	
+	private void updateText(String bluetoothName) {
+		TextView textView = (TextView) findViewById(R.id.activity_main_packet_count);
+		textView.setText("> Your server:\n" + 
+				"> Name: " + bluetoothName + "\n" + 
+				"> # Jammers: " + Game.getInstance().getMyServer().getNumJammers() + "\n" + 
+				"> # Packets: " + Game.getInstance().getMyServer().getNumPackets() + "\n"
+				 + ">\n" + ">\n" + ">\n" + ">\n"
+				);
 	}
 }

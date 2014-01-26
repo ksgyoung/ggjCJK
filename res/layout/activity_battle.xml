@@ -111,7 +111,7 @@
        <ImageView
            android:layout_width="150dp"
            android:layout_height="150dp"
-           android:src="@drawable/g3876" />
+           android:src="@drawable/cat" />
        
        <TextView
             android:id="@+id/activity_battle_enemy_name"
