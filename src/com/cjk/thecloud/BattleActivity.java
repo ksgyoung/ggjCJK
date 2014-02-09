@@ -40,13 +40,13 @@ public class BattleActivity extends Activity {
 
 		/*--- GAME SETUP ---*/
 		controller = BattleController.getInstance();
-		controller.setActivity(this);
+		controller.setBattleActivity(this);
 		setMyName(controller.getMyBluetoothName());
 		
 		/*--- BLUETOOTH SETUP ---*/
 		this.isBluetoothBattle = this.getIntent().getBooleanExtra(
 				BattleController.IS_BLUETOOTH_BATTLE, true);
-		controller.connectBluetooth(true);
+		//controller.connectBluetooth(true);
 		if (!isBluetoothBattle) {
 			setEnemyName(this.getIntent().getStringExtra(
 					BattleController.ENEMY_NAME));

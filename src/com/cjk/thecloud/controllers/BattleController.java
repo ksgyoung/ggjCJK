@@ -43,6 +43,7 @@ public class BattleController {
 	
 	public void startBattleActivityNoBluetooth(Context context, String enemyName) {
 		Intent intent = new Intent(context, BattleActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		
 		intent.putExtra(IS_BLUETOOTH_BATTLE, false);
 		intent.putExtra(ENEMY_NAME, enemyName);
@@ -92,16 +93,18 @@ public class BattleController {
 	}
 	
 	public boolean attemptHit() {
+		bluetoothController.sendMessage("ATTACK!");
+		
 		int enemyDefenceRate = Game.getInstance().getEnemyServer().getDefenceRate()/2;
 		int myAttackRate = Game.getInstance().getMyServer().getAttackRate();
 		Dice dice = Dice.getInstance();
 		if (dice.getRoll(enemyDefenceRate) < dice.getRoll(myAttackRate)) {
-			Toast toast = Toast.makeText(battleActivity, "I hit the enemy!", Toast.LENGTH_SHORT);
-			toast.show();
+			/*Toast toast = Toast.makeText(battleActivity, "I hit the enemy!", Toast.LENGTH_SHORT);
+			toast.show();*/
 			return true;
 		}
-		Toast toast = Toast.makeText(battleActivity, "I missed the enemy!", Toast.LENGTH_SHORT);
-		toast.show();
+		/*Toast toast = Toast.makeText(battleActivity, "I missed the enemy!", Toast.LENGTH_SHORT);
+		toast.show();*/
 		return false;
 	}
 	
@@ -110,12 +113,12 @@ public class BattleController {
 		int enemyAttackRate = Game.getInstance().getEnemyServer().getAttackRate();
 		Dice dice = Dice.getInstance();
 		if (dice.getRoll(myDefenceRate) < dice.getRoll(enemyAttackRate)) {
-			Toast toast = Toast.makeText(battleActivity, "Enemy hit me!", Toast.LENGTH_SHORT);
-			toast.show();
+			/*Toast toast = Toast.makeText(battleActivity, "Enemy hit me!", Toast.LENGTH_SHORT);
+			toast.show();*/
 			return false;
 		}
-		Toast toast = Toast.makeText(battleActivity, "I dodged!", Toast.LENGTH_SHORT);
-		toast.show();
+		/*Toast toast = Toast.makeText(battleActivity, "I dodged!", Toast.LENGTH_SHORT);
+		toast.show();*/
 		return true;
 	}
 	
@@ -127,8 +130,8 @@ public class BattleController {
 		int damage = dice.getRoll(myAttackRate / 2 - 1) + 1;
 		//float damageReductionRate = (float) (dice.getRoll(enemyDefenceRate / 2) / 10.0);
 		//damage = (Integer) Math.round(damage * damageReductionRate);
-		Toast toast = Toast.makeText(battleActivity, "Damage to enemy: " + damage, Toast.LENGTH_SHORT);
-		toast.show();
+		/*Toast toast = Toast.makeText(battleActivity, "Damage to enemy: " + damage, Toast.LENGTH_SHORT);
+		toast.show();*/
 		
 		Jammer enemyJammer = Game.getInstance().getEnemyServer().getJammer();
 		enemyJammer.addDamage(damage);
@@ -193,8 +196,8 @@ public class BattleController {
 			showDeathDialog("You have lost - shame on you");
 		}
 		
-		Toast toast = Toast.makeText(battleActivity, "Damage to me: " + damage, Toast.LENGTH_SHORT);
-		toast.show();
+		/*Toast toast = Toast.makeText(battleActivity, "Damage to me: " + damage, Toast.LENGTH_SHORT);
+		toast.show();*/
 		return damage;
 	}
 	
@@ -202,12 +205,13 @@ public class BattleController {
 		return Game.getInstance().getEnemyServer().getNumPackets();
 	}
 
-	public BattleActivity getActivity() {
+	public BattleActivity getBattleActivity() {
 		return battleActivity;
 	}
 
-	public void setActivity(BattleActivity activity) {
+	public void setBattleActivity(BattleActivity activity) {
 		this.battleActivity = activity;
+		bluetoothController.setBattleActivity(activity);
 	}
 
 	public String getMyBluetoothName() {

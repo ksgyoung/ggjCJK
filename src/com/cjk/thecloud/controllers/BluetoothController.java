@@ -41,11 +41,14 @@ public class BluetoothController {
 	
 	private BluetoothDevice enemyDevice;
 	private String enemyBluetoothId;
+	
+	private StringBuffer outStringBuffer;
     
 	public BluetoothController(BattleActivity battleActivity) {
 		this.battleActivity = battleActivity;
 		//this.enemyDevice = enemyDevice;
 		this.bluetoothService = new BluetoothChatService(battleActivity, mHandler);
+		this.outStringBuffer = new StringBuffer("");
 	}
     
 	public void startListeners() {
@@ -128,12 +131,45 @@ public class BluetoothController {
         }
     };
     
+    /**
+     * Sends a message.
+     * @param message  A string of text to send.
+     */
+    public void sendMessage(String message) {
+        // Check that we're actually connected before trying anything
+        if (bluetoothService.getState() != BluetoothChatService.STATE_CONNECTED) {
+            Log.e(TAG, "Not connected");
+        	//Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Check that there's actually something to send
+        if (message.length() > 0) {
+            // Get the message bytes and tell the BluetoothChatService to write
+            byte[] send = message.getBytes();
+            bluetoothService.write(send);
+
+            // Reset out string buffer to zero and clear the edit text field
+            outStringBuffer.setLength(0);
+            //mOutEditText.setText(mOutStringBuffer);
+        }
+    }
+
+    
     public BluetoothDevice getEnemyDevice() {
 		return enemyDevice;
 	}
 
 	public void setEnemyDevice(BluetoothDevice enemyDevice) {
 		this.enemyDevice = enemyDevice;
+	}
+
+	public BattleActivity getBattleActivity() {
+		return battleActivity;
+	}
+
+	public void setBattleActivity(BattleActivity battleActivity) {
+		this.battleActivity = battleActivity;
 	}
 	
 	/*public Intent startBluetoothSettingsActivity() {

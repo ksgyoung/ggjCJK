@@ -125,7 +125,7 @@ public class MainActivity extends Activity {
 		    //startActivityForResult(intent, REQUEST_PAIR);
 			
 			Intent serverIntent = new Intent(this, DeviceListActivity.class);
-            startActivityForResult(serverIntent, BluetoothController.REQUEST_CONNECT_DEVICE_INSECURE);
+            startActivityForResult(serverIntent, BluetoothController.REQUEST_CONNECT_DEVICE_SECURE);
             return;
 	}
 	
@@ -166,8 +166,9 @@ public class MainActivity extends Activity {
         // Get the BluetoothDevice object
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         // Attempt to connect to the device
-       // BattleController.getInstance().setEnemyDevice(device);
-        BattleController.getInstance().startBattleActivityBluetooth(this, device);
+        BattleController.getInstance().setEnemyDevice(device);
+       // BattleController.getInstance().startBattleActivityBluetooth(this, device);
+        BattleController.getInstance().connectBluetooth(true);
     }
 	
 	@Override

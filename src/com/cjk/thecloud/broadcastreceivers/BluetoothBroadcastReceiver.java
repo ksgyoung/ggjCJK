@@ -2,6 +2,8 @@ package com.cjk.thecloud.broadcastreceivers;
 
 import java.util.Set;
 
+import com.cjk.thecloud.controllers.BattleController;
+
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,6 +20,10 @@ public class BluetoothBroadcastReceiver extends BroadcastReceiver{
 		
 		String actionString = intent.getAction();
 		Log.d("BluetoothBroadcastReceiver", "ActionString: " + actionString);
+		
+		if (actionString.equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
+			BattleController.getInstance().startBattleActivityNoBluetooth(context, "BroadcastReceiver");
+		}
 		
 //		if(actionString.equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
 //			Log.d("BluetoothBroadcastReceiver", "Connected to bluetooth");
