@@ -46,7 +46,7 @@ public class BattleActivity extends Activity {
 		/*--- BLUETOOTH SETUP ---*/
 		this.isBluetoothBattle = this.getIntent().getBooleanExtra(
 				BattleController.IS_BLUETOOTH_BATTLE, true);
-		//controller.startBluetoothListeners();
+		controller.connectBluetooth(true);
 		if (!isBluetoothBattle) {
 			setEnemyName(this.getIntent().getStringExtra(
 					BattleController.ENEMY_NAME));
@@ -70,20 +70,13 @@ public class BattleActivity extends Activity {
 		 */
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (isBluetoothBattle) {
-			controller.startBluetoothListeners();
-		}
-	}
-
+	
 	@Override
 	protected void onStart() {
 		super.onStart();
-		if (isBluetoothBattle) {
+		/*if (isBluetoothBattle) {
 			controller.connectBluetooth(true);
-		}
+		}*/
 	}
 
 	@Override
@@ -91,6 +84,12 @@ public class BattleActivity extends Activity {
 		BattleController.getInstance().battleStarted = false;
 		super.finish();
 
+	}
+	
+	@Override
+	protected void onResume() {
+		BattleController.getInstance().startBluetoothListeners();
+		super.onResume();
 	}
 
 	@Override

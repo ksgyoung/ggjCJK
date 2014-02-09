@@ -13,7 +13,6 @@ import com.cjk.thecloud.BattleActivity;
 import com.cjk.thecloud.R;
 import com.cjk.thecloud.game.elements.Server;
 import com.cjk.thecloud.networking.bluetooth.BluetoothChatService;
-import com.cjk.thecloud.util.BluetoothUtils;
 
 public class BluetoothController {
 	
@@ -32,9 +31,9 @@ public class BluetoothController {
     public static final String TOAST = "toast";
 
     // Intent request codes
-    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
-    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
-    private static final int REQUEST_ENABLE_BT = 3;
+    public static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
+    public static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
+    public static final int REQUEST_ENABLE_BT = 3;
     
     //private String enemyBluetoothId;
 	private BattleActivity battleActivity;
@@ -57,6 +56,12 @@ public class BluetoothController {
             	bluetoothService.start();
             }
         }
+	}
+	
+	public void stopListeners() {
+		if (bluetoothService != null) {
+			bluetoothService.stop();
+		}
 	}
 	
 	public void connect(boolean secure) {
@@ -116,8 +121,8 @@ public class BluetoothController {
             case MESSAGE_TOAST:
                 //Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
                 //               Toast.LENGTH_SHORT).show();
-            	toast = Toast.makeText(battleActivity, msg.getData().getString(TOAST), Toast.LENGTH_SHORT);
-        		toast.show();
+            	//toast = Toast.makeText(battleActivity, msg.getData().getString(TOAST), Toast.LENGTH_SHORT);
+        		//toast.show();
                 break;
             }
         }

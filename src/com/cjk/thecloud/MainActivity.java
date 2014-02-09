@@ -3,9 +3,9 @@ package com.cjk.thecloud;
 import java.util.Set;
 
 import com.cjk.thecloud.controllers.BattleController;
+import com.cjk.thecloud.controllers.BluetoothController;
 import com.cjk.thecloud.game.Game;
 import com.cjk.thecloud.game.GameCreator;
-import com.cjk.thecloud.util.BluetoothUtils;
 
 import android.os.Bundle;
 import android.provider.Settings;
@@ -20,13 +20,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
+	private static final String TAG = MainActivity.class.getSimpleName();
+	
 	private final int REQUEST_PAIR = 1;
 	private final int REQUEST_ENABLE = 0;
 	
 	private BattleController battleController;
+	private BluetoothAdapter mBluetoothAdapter;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +40,23 @@ public class MainActivity extends Activity {
 		getActionBar().hide();
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		GameCreator.createGame();
-		String bluetoothName = BluetoothUtils.getInstance().getLocalBluetoothName();
+		
+		// Get local Bluetooth adapter
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        // If the adapter is null, then Bluetooth is not supported
+        if (mBluetoothAdapter == null) {
+            Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+		
+		
+		String bluetoothName = mBluetoothAdapter.getName();
 		
 		battleController = BattleController.getInstance();
 		battleController.setMyBluetoothName(bluetoothName);
+		//battleController.startBluetoothListeners();
 		//battleController.startBluetoothListeners();
 		
 		updateText(bluetoothName);
@@ -96,48 +113,76 @@ public class MainActivity extends Activity {
 	}
 
 	public void onBluetoothClick(View view) {
-		
-			BluetoothUtils utils = BluetoothUtils.getInstance();
-			
+					
 			Log.d("BLUETOOTH", "search battle pressed");
 			
-			if(!utils.getBluetoothAdapter().isEnabled()) {
+			if(!mBluetoothAdapter.isEnabled()) {
 				Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 				startActivityForResult(turnOn, REQUEST_ENABLE); 
 			}
 			
-			Intent intent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
-		    startActivityForResult(intent, REQUEST_PAIR);			
+			//Intent intent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+		    //startActivityForResult(intent, REQUEST_PAIR);
+			
+			Intent serverIntent = new Intent(this, DeviceListActivity.class);
+            startActivityForResult(serverIntent, BluetoothController.REQUEST_CONNECT_DEVICE_INSECURE);
+            return;
 	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.d("BLUETOOTH", "activity result: " + requestCode);
-		switch (requestCode) {
-		case REQUEST_PAIR:
-			
-			Log.d("BLUETOOTH", "Paired with a device");
-			
-			Set<BluetoothDevice> devices = BluetoothUtils.getInstance().getPairedDevices();
-			
-			if(devices.size() > 0) {
-				BluetoothDevice device = devices.iterator().next();
-				BattleController battleController = BattleController.getInstance();
-				battleController.startBattleActivityBluetooth(this, device);
-			}
-			
-			break;
-
-		default:
-			break;
-		}
+		Log.d(TAG, "onActivityResult " + resultCode);
+        switch (requestCode) {
+        case BluetoothController.REQUEST_CONNECT_DEVICE_SECURE:
+            // When DeviceListActivity returns with a device to connect
+            if (resultCode == Activity.RESULT_OK) {
+                connectDevice(data, true);
+            }
+            break;
+        case BluetoothController.REQUEST_CONNECT_DEVICE_INSECURE:
+            // When DeviceListActivity returns with a device to connect
+            if (resultCode == Activity.RESULT_OK) {
+                connectDevice(data, false);
+            }
+            break;
+        case BluetoothController.REQUEST_ENABLE_BT:
+            // When the request to enable Bluetooth returns
+            if (resultCode == Activity.RESULT_OK) {
+                // Bluetooth is now enabled, so set up a chat session
+                //setupChat();
+            } else {
+                // User did not enable Bluetooth or an error occurred
+                Log.d(TAG, "BT not enabled");
+                Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
 	}
+	
+	private void connectDevice(Intent data, boolean secure) {
+        // Get the device MAC address
+        String address = data.getExtras()
+            .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+        // Get the BluetoothDevice object
+        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+        // Attempt to connect to the device
+       // BattleController.getInstance().setEnemyDevice(device);
+        BattleController.getInstance().startBattleActivityBluetooth(this, device);
+    }
 	
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		updateText(BluetoothUtils.getInstance().getLocalBluetoothName());
+		BattleController.getInstance().startBluetoothListeners();
+		//updateText(BluetoothUtils.getInstance().getLocalBluetoothName());
+		
+	}
+	
+	@Override
+	protected void onDestroy() {
+		BattleController.getInstance().stopBluetoothListeners();
+		super.onDestroy();	
 	}
 	
 	private void updateText(String bluetoothName) {

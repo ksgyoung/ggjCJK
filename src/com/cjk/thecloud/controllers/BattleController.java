@@ -63,6 +63,12 @@ public class BattleController {
 		bluetoothController.startListeners();
 	}
 	
+	public void stopBluetoothListeners() {
+		if (bluetoothController != null) {
+			bluetoothController.stopListeners();
+		}
+	}
+	
 	public void connectBluetooth(boolean secure) {
 		if (bluetoothController == null) {
 			bluetoothController = new BluetoothController(battleActivity);

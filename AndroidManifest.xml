@@ -35,6 +35,11 @@
             android:label="@string/title_activity_battle"
             android:theme="@style/FullscreenTheme" >
         </activity>
+        <activity
+            android:name="com.cjk.thecloud.DeviceListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_device_list" >
+        </activity>
         
         <!-- <receiver android:name="com.cjk.thecloud.broadcastreceivers.BluetoothBroadcastReceiver">
 	        <intent-filter>
