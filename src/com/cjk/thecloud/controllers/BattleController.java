@@ -32,7 +32,9 @@ public class BattleController {
 	private BluetoothController bluetoothController = null;
 	private BluetoothDevice enemyDevice;
 	
-	private BattleController(){}
+	private BattleController() {
+		bluetoothController = new BluetoothController(battleActivity);
+	}
 	
 	public static BattleController getInstance() {
 		if (instance == null) {
@@ -211,6 +213,7 @@ public class BattleController {
 
 	public void setBattleActivity(BattleActivity activity) {
 		this.battleActivity = activity;
+		if (bluetoothController != null)
 		bluetoothController.setBattleActivity(activity);
 	}
 
