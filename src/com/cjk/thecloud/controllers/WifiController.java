@@ -15,7 +15,7 @@ public class WifiController {
 	
 	private static WifiController instance = null;
 	
-	protected WifiController() {
+	private WifiController() {
 		
 	}
 	

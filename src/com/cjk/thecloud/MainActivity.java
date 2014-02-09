@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void onButtonClick(View view) {
-		BattleController.getInstance().startBattleActivity(getApplicationContext(), "Test");
+		BattleController.getInstance().startBattleActivityNoBluetooth(getApplicationContext(), "Test");
 	}
 	
 	public void createDialog() {
@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
 					// current activity
 					 //Get 
            			//GameCreator.createGame();
-        			BattleController.getInstance().startBattleActivity(getApplicationContext(),"Wild Wifi Jammer");
+        			BattleController.getInstance().startBattleActivityNoBluetooth(getApplicationContext(),"Wild Wifi Jammer");
 				}
 			  })
 			.setNegativeButton("No",new DialogInterface.OnClickListener() {
@@ -117,7 +117,8 @@ public class MainActivity extends Activity {
 			
 			if(devices.size() > 0) {
 				BluetoothDevice device = devices.iterator().next();
-				BattleController.getInstance().startBattleActivity(this, device.getName());
+				BattleController battleController = BattleController.getInstance();
+				battleController.startBattleActivityBluetooth(this, device);
 			}
 			
 			break;

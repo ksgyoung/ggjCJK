@@ -1,6 +1,7 @@
 package com.cjk.thecloud.controllers;
 
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,12 +17,21 @@ import com.cjk.thecloud.util.Dice;
 
 public class BattleController {
 	
+	public static final String IS_BLUETOOTH_BATTLE = "IS_BLUETOOTH_BATTLE";
+	public static final String ENEMY_NAME = "ENEMY_NAME";
+	
+	private static final boolean DEBUG = true;
+	
 	private static BattleController instance;
 	private String enemyName;
 	private String TAG = "BattleController";
-	private BattleActivity activity;
+	private BattleActivity battleActivity;
 	private String myBluetoothName;
 	public boolean battleStarted = false;
+	
+	private BluetoothController bluetoothController = null;
+	private BluetoothDevice enemyDevice;
+	
 	private BattleController(){}
 	
 	public static BattleController getInstance() {
@@ -31,44 +41,45 @@ public class BattleController {
 		return instance;
 	}
 	
-	public void startBattleActivity(Context context, String enemyName) {
-		Log.d(TAG, "Battling " + enemyName);
-		this.enemyName = enemyName;
-		
+	public void startBattleActivityNoBluetooth(Context context, String enemyName) {
 		Intent intent = new Intent(context, BattleActivity.class);
-
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.putExtra("enemy_name", enemyName);
-		context.startActivity(intent);	
+		
+		intent.putExtra(IS_BLUETOOTH_BATTLE, false);
+		intent.putExtra(ENEMY_NAME, enemyName);
+		
+		context.startActivity(intent);
 	}
 	
-	public void doBattle() {
-		
-		
-		//String enemyPacketText = "Spotted an enemy with " + getEnemyPackets() + " packets. Do you want to attack?";
-		//activity.appendTextToConsole(enemyPacketText);
-		// Find server
-		// Send total packets
-		// Get total packets
-		// Challenge
-		// Run?
-		// Select unit
-		// Attack
-		// Defend
-		// Successful attack = packet damage
-		// No packets = faint
+	public void startBattleActivityBluetooth(Context context, BluetoothDevice device) {		
+		this.enemyDevice = device;
+		Intent intent = new Intent(context, BattleActivity.class);
+		context.startActivity(intent);
 	}	
+	
+	public void startBluetoothListeners() {
+		if (bluetoothController == null) {
+			bluetoothController = new BluetoothController(battleActivity, enemyDevice);
+		}
+		bluetoothController.startListeners();
+	}
+	
+	public void connectBluetooth(boolean secure) {
+		if (bluetoothController == null) {
+			bluetoothController = new BluetoothController(battleActivity, enemyDevice);
+		}
+		bluetoothController.connect(true);
+	}
 	
 	public boolean challenge() {
 		int enemyDefenceRate = Game.getInstance().getEnemyServer().getDefenceRate();
 		int myAttackRate = Game.getInstance().getMyServer().getAttackRate();
 		Dice dice = Dice.getInstance();
 		if (dice.getRoll(enemyDefenceRate) < dice.getRoll(myAttackRate)) {
-			Toast toast = Toast.makeText(activity, "Enemy failed to run away.", Toast.LENGTH_LONG);
+			Toast toast = Toast.makeText(battleActivity, "Enemy failed to run away.", Toast.LENGTH_LONG);
 			toast.show();
 			return true;
 		}
-		Toast toast = Toast.makeText(activity, "Enemy ran away.", Toast.LENGTH_LONG);
+		Toast toast = Toast.makeText(battleActivity, "Enemy ran away.", Toast.LENGTH_LONG);
 		toast.show();
 		return false;
 	}
@@ -78,11 +89,11 @@ public class BattleController {
 		int myAttackRate = Game.getInstance().getMyServer().getAttackRate();
 		Dice dice = Dice.getInstance();
 		if (dice.getRoll(enemyDefenceRate) < dice.getRoll(myAttackRate)) {
-			Toast toast = Toast.makeText(activity, "I hit the enemy!", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(battleActivity, "I hit the enemy!", Toast.LENGTH_SHORT);
 			toast.show();
 			return true;
 		}
-		Toast toast = Toast.makeText(activity, "I missed the enemy!", Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(battleActivity, "I missed the enemy!", Toast.LENGTH_SHORT);
 		toast.show();
 		return false;
 	}
@@ -92,11 +103,11 @@ public class BattleController {
 		int enemyAttackRate = Game.getInstance().getEnemyServer().getAttackRate();
 		Dice dice = Dice.getInstance();
 		if (dice.getRoll(myDefenceRate) < dice.getRoll(enemyAttackRate)) {
-			Toast toast = Toast.makeText(activity, "Enemy hit me!", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(battleActivity, "Enemy hit me!", Toast.LENGTH_SHORT);
 			toast.show();
 			return false;
 		}
-		Toast toast = Toast.makeText(activity, "I dodged!", Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(battleActivity, "I dodged!", Toast.LENGTH_SHORT);
 		toast.show();
 		return true;
 	}
@@ -109,17 +120,17 @@ public class BattleController {
 		int damage = dice.getRoll(myAttackRate / 2 - 1) + 1;
 		//float damageReductionRate = (float) (dice.getRoll(enemyDefenceRate / 2) / 10.0);
 		//damage = (Integer) Math.round(damage * damageReductionRate);
-		Toast toast = Toast.makeText(activity, "Damage to enemy: " + damage, Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(battleActivity, "Damage to enemy: " + damage, Toast.LENGTH_SHORT);
 		toast.show();
 		
 		Jammer enemyJammer = Game.getInstance().getEnemyServer().getJammer();
 		enemyJammer.addDamage(damage);
 		
-		activity.setEnemyHealth(enemyJammer.getHealth());
+		battleActivity.setEnemyHealth(enemyJammer.getHealth());
 		
 		if(jammerIsDead(enemyJammer)) {
 			Jammer myJammer = myServer.getJammer();
-			Toast.makeText(activity, "Enemy died", Toast.LENGTH_SHORT).show();
+			Toast.makeText(battleActivity, "Enemy died", Toast.LENGTH_SHORT).show();
 			
 			myJammer.addPacket(enemyJammer.takeAttackPacket());
 			myJammer.addPacket(enemyJammer.takeDefencePacket());
@@ -131,11 +142,11 @@ public class BattleController {
 	}
 	
 	private void showDeathDialog(String message) {
-		 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+		 AlertDialog.Builder builder = new AlertDialog.Builder(battleActivity);
 		        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 		            public void onClick(DialogInterface dialog, int id) {
 		                // User clicked OK button
-		            	activity.finish();
+		            	battleActivity.finish();
 		            }
 		        });
 		       
@@ -163,11 +174,11 @@ public class BattleController {
 		Jammer myJammer = Game.getInstance().getMyServer().getJammer();
 		myJammer.addDamage(damage);
 		
-		activity.setMyHealth(myJammer.getHealth());
+		battleActivity.setMyHealth(myJammer.getHealth());
 		
 		if(jammerIsDead(myJammer)) {
 			Jammer enemyJammer = enemyServer.getJammer();
-			Toast.makeText(activity, "I died", Toast.LENGTH_SHORT).show();
+			Toast.makeText(battleActivity, "I died", Toast.LENGTH_SHORT).show();
 			
 			enemyJammer.addPacket(myJammer.takeAttackPacket());
 			enemyJammer.addPacket(myJammer.takeDefencePacket());
@@ -175,7 +186,7 @@ public class BattleController {
 			showDeathDialog("You have lost - shame on you");
 		}
 		
-		Toast toast = Toast.makeText(activity, "Damage to me: " + damage, Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(battleActivity, "Damage to me: " + damage, Toast.LENGTH_SHORT);
 		toast.show();
 		return damage;
 	}
@@ -185,11 +196,11 @@ public class BattleController {
 	}
 
 	public BattleActivity getActivity() {
-		return activity;
+		return battleActivity;
 	}
 
 	public void setActivity(BattleActivity activity) {
-		this.activity = activity;
+		this.battleActivity = activity;
 	}
 
 	public String getMyBluetoothName() {

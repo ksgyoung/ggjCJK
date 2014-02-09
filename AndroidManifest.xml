@@ -36,12 +36,12 @@
             android:theme="@style/FullscreenTheme" >
         </activity>
         
-        <receiver android:name="com.cjk.thecloud.broadcastreceivers.BluetoothBroadcastReceiver">
+        <!-- <receiver android:name="com.cjk.thecloud.broadcastreceivers.BluetoothBroadcastReceiver">
 	        <intent-filter>
 	            <action android:name="android.bluetooth.device.action.ACL_CONNECTED"/>
 	            <action android:name="android.bluetooth.device.action.FOUND"/>
 	        </intent-filter>
-	    </receiver>
+	    </receiver> -->
 	    
 	    <receiver android:name="com.cjk.thecloud.broadcastreceivers.WifiBroadcastReceiver">
 	        <intent-filter>

@@ -1,19 +1,125 @@
 package com.cjk.thecloud.controllers;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.cjk.thecloud.BattleActivity;
+import com.cjk.thecloud.R;
 import com.cjk.thecloud.game.elements.Server;
+import com.cjk.thecloud.networking.bluetooth.BluetoothChatService;
 import com.cjk.thecloud.util.BluetoothUtils;
 
 public class BluetoothController {
 	
-	public Server getEnemy() {
-		return new Server("bluetooth_id");
+	private static final String TAG = BluetoothController.class.getSimpleName();
+	private static final boolean D = true;
+	
+	// Message types sent from the BluetoothChatService Handler
+    public static final int MESSAGE_STATE_CHANGE = 1;
+    public static final int MESSAGE_READ = 2;
+    public static final int MESSAGE_WRITE = 3;
+    public static final int MESSAGE_DEVICE_NAME = 4;
+    public static final int MESSAGE_TOAST = 5;
+
+    // Key names received from the BluetoothChatService Handler
+    public static final String DEVICE_NAME = "device_name";
+    public static final String TOAST = "toast";
+
+    // Intent request codes
+    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
+    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
+    private static final int REQUEST_ENABLE_BT = 3;
+    
+    //private String enemyBluetoothId;
+	private BattleActivity battleActivity;
+	private BluetoothChatService bluetoothService;
+	
+	private BluetoothDevice enemyDevice;
+    
+	public BluetoothController(BattleActivity battleActivity, BluetoothDevice enemyDevice) {
+		this.battleActivity = battleActivity;
+		this.enemyDevice = enemyDevice;
+		this.bluetoothService = new BluetoothChatService(battleActivity, mHandler);
+	}
+    
+	public void startListeners() {
+		if (bluetoothService != null) {
+            // Only if the state is STATE_NONE, do we know that we haven't started already
+            if (bluetoothService.getState() == BluetoothChatService.STATE_NONE) {
+            	// Start the Bluetooth chat services
+            	bluetoothService.start();
+            }
+        }
 	}
 	
-	public Intent startBluetoothSettingsActivity() {
+	public void connect(boolean secure) {
+		if (enemyDevice == null) {
+			Log.e(TAG, "No enemy device");
+			return;
+		}
+		bluetoothService.connect(enemyDevice, secure);
+	}
+	
+    
+	// The Handler that gets information back from the BluetoothChatService
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            case MESSAGE_STATE_CHANGE:
+                if(D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
+                switch (msg.arg1) {
+                case BluetoothChatService.STATE_CONNECTED:
+                    battleActivity.setEnemyName("Connected!");
+                    break;
+                case BluetoothChatService.STATE_CONNECTING:
+                	battleActivity.setEnemyName("Connecting...");
+                    break;
+                case BluetoothChatService.STATE_LISTEN:
+                	battleActivity.setEnemyName("Listening...");
+                case BluetoothChatService.STATE_NONE:
+                	battleActivity.setEnemyName("Not connected!");
+                    break;
+                }
+                break;
+            case MESSAGE_WRITE:
+                byte[] writeBuf = (byte[]) msg.obj;
+                // construct a string from the buffer
+                String writeMessage = new String(writeBuf);
+                Toast toast = Toast.makeText(battleActivity, "Me: " + writeMessage, Toast.LENGTH_SHORT);
+        		toast.show();
+                break;
+            case MESSAGE_READ:
+                byte[] readBuf = (byte[]) msg.obj;
+                // construct a string from the valid bytes in the buffer
+                String readMessage = new String(readBuf, 0, msg.arg1);
+                toast = Toast.makeText(battleActivity, "Enemy: " + readMessage, Toast.LENGTH_SHORT);
+        		toast.show();
+                break;
+            case MESSAGE_DEVICE_NAME:
+                // save the connected device's name
+                String enemyBluetoothId = msg.getData().getString(DEVICE_NAME);
+                battleActivity.setEnemyName(enemyBluetoothId);
+                //Toast.makeText(getApplicationContext(), "Connected to "
+               //                + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+                break;
+            case MESSAGE_TOAST:
+                //Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
+                //               Toast.LENGTH_SHORT).show();
+            	toast = Toast.makeText(battleActivity, msg.getData().getString(TOAST), Toast.LENGTH_SHORT);
+        		toast.show();
+                break;
+            }
+        }
+    };
+	
+	/*public Intent startBluetoothSettingsActivity() {
 		return new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
 	}
 	
@@ -24,6 +130,6 @@ public class BluetoothController {
 	public boolean bluetoothIsEnabled() {
 		return BluetoothUtils.getInstance().getBluetoothAdapter().isEnabled();
 		
-	}
+	}*/
 
 }
