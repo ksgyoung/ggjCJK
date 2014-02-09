@@ -41,10 +41,11 @@ public class BluetoothController {
 	private BluetoothChatService bluetoothService;
 	
 	private BluetoothDevice enemyDevice;
+	private String enemyBluetoothId;
     
-	public BluetoothController(BattleActivity battleActivity, BluetoothDevice enemyDevice) {
+	public BluetoothController(BattleActivity battleActivity) {
 		this.battleActivity = battleActivity;
-		this.enemyDevice = enemyDevice;
+		//this.enemyDevice = enemyDevice;
 		this.bluetoothService = new BluetoothChatService(battleActivity, mHandler);
 	}
     
@@ -76,15 +77,18 @@ public class BluetoothController {
                 if(D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
                 switch (msg.arg1) {
                 case BluetoothChatService.STATE_CONNECTED:
-                    battleActivity.setEnemyName("Connected!");
+                	if (battleActivity != null) 
+                		battleActivity.setEnemyName("Connected to: " + enemyBluetoothId);
                     break;
                 case BluetoothChatService.STATE_CONNECTING:
-                	battleActivity.setEnemyName("Connecting...");
+                	if (battleActivity != null) 
+                		battleActivity.setEnemyName("Connecting...");
                     break;
                 case BluetoothChatService.STATE_LISTEN:
-                	battleActivity.setEnemyName("Listening...");
+                	//battleActivity.setEnemyName("Listening...");
                 case BluetoothChatService.STATE_NONE:
-                	battleActivity.setEnemyName("Not connected!");
+                	if (battleActivity != null) 
+                		battleActivity.setEnemyName("Not connected!");
                     break;
                 }
                 break;
@@ -104,8 +108,8 @@ public class BluetoothController {
                 break;
             case MESSAGE_DEVICE_NAME:
                 // save the connected device's name
-                String enemyBluetoothId = msg.getData().getString(DEVICE_NAME);
-                battleActivity.setEnemyName(enemyBluetoothId);
+                enemyBluetoothId = msg.getData().getString(DEVICE_NAME);
+                //battleActivity.setEnemyName(enemyBluetoothId);
                 //Toast.makeText(getApplicationContext(), "Connected to "
                //                + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                 break;
@@ -118,6 +122,14 @@ public class BluetoothController {
             }
         }
     };
+    
+    public BluetoothDevice getEnemyDevice() {
+		return enemyDevice;
+	}
+
+	public void setEnemyDevice(BluetoothDevice enemyDevice) {
+		this.enemyDevice = enemyDevice;
+	}
 	
 	/*public Intent startBluetoothSettingsActivity() {
 		return new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);

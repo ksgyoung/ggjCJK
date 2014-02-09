@@ -25,6 +25,8 @@ public class MainActivity extends Activity {
 
 	private final int REQUEST_PAIR = 1;
 	private final int REQUEST_ENABLE = 0;
+	
+	private BattleController battleController;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,10 @@ public class MainActivity extends Activity {
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		GameCreator.createGame();
 		String bluetoothName = BluetoothUtils.getInstance().getLocalBluetoothName();
-		BattleController.getInstance().setMyBluetoothName(bluetoothName);
+		
+		battleController = BattleController.getInstance();
+		battleController.setMyBluetoothName(bluetoothName);
+		//battleController.startBluetoothListeners();
 		
 		updateText(bluetoothName);
 

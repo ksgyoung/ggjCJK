@@ -38,14 +38,15 @@ public class BattleActivity extends Activity {
 		enemyNameTextView = (TextView) findViewById(R.id.activity_battle_enemy_name);
 		myNameTextView = (TextView) findViewById(R.id.activity_battle_my_name);
 
-		/*--- BLUETOOTH SETUP ---*/
-		this.isBluetoothBattle = this.getIntent().getBooleanExtra(
-				BattleController.IS_BLUETOOTH_BATTLE, true);
-		
 		/*--- GAME SETUP ---*/
 		controller = BattleController.getInstance();
 		controller.setActivity(this);
 		setMyName(controller.getMyBluetoothName());
+		
+		/*--- BLUETOOTH SETUP ---*/
+		this.isBluetoothBattle = this.getIntent().getBooleanExtra(
+				BattleController.IS_BLUETOOTH_BATTLE, true);
+		//controller.startBluetoothListeners();
 		if (!isBluetoothBattle) {
 			setEnemyName(this.getIntent().getStringExtra(
 					BattleController.ENEMY_NAME));

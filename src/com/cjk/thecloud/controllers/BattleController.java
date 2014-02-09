@@ -58,15 +58,16 @@ public class BattleController {
 	
 	public void startBluetoothListeners() {
 		if (bluetoothController == null) {
-			bluetoothController = new BluetoothController(battleActivity, enemyDevice);
+			bluetoothController = new BluetoothController(battleActivity);
 		}
 		bluetoothController.startListeners();
 	}
 	
 	public void connectBluetooth(boolean secure) {
 		if (bluetoothController == null) {
-			bluetoothController = new BluetoothController(battleActivity, enemyDevice);
+			bluetoothController = new BluetoothController(battleActivity);
 		}
+		bluetoothController.setEnemyDevice(enemyDevice);
 		bluetoothController.connect(true);
 	}
 	
@@ -209,6 +210,14 @@ public class BattleController {
 
 	public void setMyBluetoothName(String myBluetoothName) {
 		this.myBluetoothName = myBluetoothName;
+	}
+
+	public BluetoothDevice getEnemyDevice() {
+		return enemyDevice;
+	}
+
+	public void setEnemyDevice(BluetoothDevice enemyDevice) {
+		this.enemyDevice = enemyDevice;
 	}
 
 }
